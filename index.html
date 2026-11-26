@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SASHA GAMES — Game Store</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#0b0d14;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  transition:background .2s,color .2s;
+}
+
+header{
+  min-height:72px;
+  background:#121622;
+  border-bottom:1px solid #292e40;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:12px 6%;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+.logo{font-size:24px;font-weight:900;color:#a58aff}
+.logo span{color:#fff}
+
+nav{display:flex;gap:18px;flex-wrap:wrap}
+nav a{color:#ddd;text-decoration:none;font-size:14px}
+nav a:hover{color:#a58aff}
+
+.hero{
+  padding:55px 7%;
+  background:linear-gradient(110deg,#27145c,#172b50 65%,#101521);
+}
+
+.hero small{color:#c1aaff;font-weight:bold}
+.hero h1{font-size:clamp(32px,6vw,55px);margin:12px 0}
+.hero p{color:#ddd}
+
+.search{
+  width:min(100%,480px);
+  padding:15px;
+  border-radius:10px;
+  border:1px solid #484267;
+  background:#111522;
+  color:white;
+  font-size:16px;
+  margin-top:15px;
+}
+
+.download{
+  display:inline-block;
+  margin-top:15px;
+  padding:13px 18px;
+  border-radius:9px;
+  background:#65dfaa;
+  color:#101521;
+  text-decoration:none;
+  font-weight:bold;
+}
+.download:hover{background:#83f0bf}
+
+.promo{
+  margin:25px 6%;
+  padding:23px;
+  border-radius:15px;
+  background:linear-gradient(100deg,#5a36bd,#a13c9a);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+.promo h2{margin:0 0 7px}
+.promo p{margin:0;color:#eee}
+.promo strong{font-size:24px}
+
+main{padding:10px 6% 35px}
+h2{font-size:23px}
+
+.categories{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+
+.categories button,
+.settings button{
+  border:1px solid #34394e;
+  background:#171c2b;
+  color:white;
+  padding:12px 18px;
+  border-radius:9px;
+  cursor:pointer;
+}
+
+.categories button.active,
+.categories button:hover,
+.settings button:hover{
+  background:#7655df;
+  border-color:#7655df;
+}
+
+.games{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:#151a27;
+  border:1px solid #2a3042;
+  border-radius:14px;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.card:hover{transform:translateY(-4px);border-color:#795be5}
+
+.cover{
+  height:135px;
+  display:grid;
+  place-items:center;
+  font-size:62px;
+  background:linear-gradient(135deg,#34245d,#17475a);
+}
+
+.info{padding:16px}
+.info h3{margin:0 0 9px}
+.info p{color:#aeb4c4;font-size:14px;min-height:32px}
+.platform{font-size:12px;color:#bcaaff}
+.price{font-weight:bold;margin-top:13px;font-size:15px}
+.free{color:#65dfaa}
+
+.store{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#7051d5;
+  color:white;
+  padding:12px;
+  border-radius:8px;
+  margin-top:13px;
+  font-weight:bold;
+}
+.store:hover{background:#8a6bf1}
+
+.settings,
+.download-info{
+  margin:10px 6% 30px;
+  padding:22px;
+  border:1px solid #2a3042;
+  border-radius:14px;
+  background:#151a27;
+}
+
+.settings h2,
+.download-info h2{margin-top:0}
+
+.settings label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:12px 0;
+}
+
+.settings input{width:18px;height:18px}
+
+footer{
+  padding:30px;
+  text-align:center;
+  color:#81889a;
+  border-top:1px solid #292e40;
+}
+
+/* Світла тема */
+body.light{
+  background:#f3f4f8;
+  color:#171925;
+}
+
+body.light header,
+body.light .card,
+body.light .settings,
+body.light .download-info{
+  background:#fff;
+  border-color:#d9dce6;
+}
+
+body.light nav a{color:#37394a}
+body.light .logo span{color:#171925}
+body.light .card p{color:#555b6c}
+body.light .categories button,
+body.light .settings button{
+  background:#e7e8f0;
+  color:#171925;
+  border-color:#d0d3df;
+}
+body.light .categories button.active,
+body.light .categories button:hover,
+body.light .settings button:hover{
+  background:#7655df;
+  color:#fff;
+}
+body.light footer{border-color:#d9dce6}
+
+@media(max-width:600px){
+  header{align-items:flex-start;flex-direction:column}
+  nav{gap:10px}
+  nav a{font-size:12px}
+  .logo{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SASHA <span>GAMES</span></div>
+  <nav>
+    <a href="#catalog">Каталог</a>
+    <a href="#free">Безкоштовні</a>
+    <a href="#sales">Акції</a>
+    <a href="#settings">Налаштування</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <small>ТВІЙ ІГРОВИЙ КАТАЛОГ</small>
+  <h1>PLAY. BUY. ENJOY.</h1>
+  <p>Знаходь улюблені ігри для своїх пристроїв.</p>
+
+  <input
+    class="search"
+    id="search"
+    placeholder="🔎 Пошук ігор..."
+    oninput="render()"
+    aria-label="Пошук ігор"
+  >
+
+  <br>
+  <a class="download" href="#download">⬇ Відкрити каталог на телефоні</a>
+</section>
+
+<section class="promo" id="sales">
+  <div>
+    <h2>🔥 ВИХІДНІ АКЦІЇ</h2>
+    <p>Перевіряй офіційні магазини на наявність пропозицій.</p>
+  </div>
+  <strong>WEEKEND SALE</strong>
+</section>
+
+<main id="catalog">
+  <h2>🎮 Каталог ігор</h2>
+
+  <div class="categories">
+    <button class="active" onclick="choose('Усі',this)">Усі</button>
+    <button onclick="choose('PC',this)">💻 PC</button>
+    <button onclick="choose('iPhone',this)">📱 iPhone</button>
+    <button onclick="choose('iPad',this)">📲 iPad</button>
+    <button onclick="choose('Android',this)">🤖 Android</button>
+    <button id="free" onclick="choose('Безкоштовні',this)">🆓 Безкоштовні</button>
+  </div>
+
+  <div class="games" id="games"></div>
+</main>
+
+<section class="settings" id="settings">
+  <h2>⚙️ Налаштування</h2>
+  <label>
+    <input type="checkbox" id="lightMode">
+    Світла тема
+  </label>
+</section>
+
+<section class="download-info" id="download">
+  <h2>📲 Як додати каталог на телефон</h2>
+  <p>
+    Відкрий цю сторінку в браузері. У меню браузера вибери
+    «Додати на головний екран», якщо така функція доступна.
+  </p>
+  <p>
+    Це вебсайт-каталог, а не окремий застосунок для встановлення.
+  </p>
+</section>
+
+<footer>
+  <div class="logo">SASHA GAMES</div>
+  <p>© 2026 SASHA GAMES. Незалежний ігровий каталог.</p>
+</footer>
+
+<script>
+const games=[
+  {
+    name:"Roblox",
+    icon:"🧱",
+    desc:"Мільйони ігор в одному місці",
+    platforms:["PC","iPhone","iPad","Android"],
+    free:true,
+    url:"https://www.roblox.com"
+  },
+  {
+    name:"Fortnite",
+    icon:"🎮",
+    desc:"Популярна королівська битва",
+    platforms:["PC","iPhone","iPad"],
+    free:true,
+    url:"https://www.fortnite.com"
+  },
+  {
+    name:"Standoff 2",
+    icon:"🎯",
+    desc:"Командний онлайн-шутер",
+    platforms:["iPhone","iPad","Android"],
+    free:true,
+    url:"https://www.standoff2.com"
+  },
+  {
+    name:"Brawl Stars",
+    icon:"⭐",
+    desc:"Динамічні командні битви",
+    platforms:["iPhone","iPad","Android"],
+    free:true,
+    url:"https://supercell.com/en/games/brawlstars/"
+  },
+  {
+    name:"Among Us",
+    icon:"🚀",
+    desc:"Знайди зрадника серед друзів",
+    platforms:["PC","iPhone","iPad","Android"],
+    free:false,
+    url:"https://www.innersloth.com/games/among-us/"
+  },
+  {
+    name:"Minecraft",
+    icon:"⛏️",
+    desc:"Створюй власний світ",
+    platforms:["PC","iPhone","iPad","Android"],
+    free:false,
+    url:"https://www.minecraft.net"
+  },
+  {
+    name:"GTA V",
+    icon:"🚗",
+    desc:"Великий відкритий світ",
+    platforms:["PC"],
+    free:false,
+    url:"https://www.rockstargames.com/gta-v"
+  },
+  {
+    name:"Genshin Impact",
+    icon:"🌍",
+    desc:"Велика фантастична пригода",
+    platforms:["PC","iPhone","iPad","Android"],
+    free:true,
+    url:"https://genshin.hoyoverse.com"
+  }
+];
+
+let selected="Усі";
+
+function choose(type,btn){
+  selected=type;
+  document.querySelectorAll(".categories button")
+    .forEach(button=>button.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+
+function render(){
+  const query=document.getElementById("search").value.trim().toLowerCase();
+
+  const list=games.filter(game=>{
+    const matchesCategory=
+      selected==="Усі" ||
+      (selected==="Безкоштовні"
+        ? game.free
+        : game.platforms.includes(selected));
+
+    const matchesSearch=
+      game.name.toLowerCase().includes(query) ||
+      game.desc.toLowerCase().includes(query);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  document.getElementById("games").innerHTML=list.map(game=>`
+    <article class="card">
+      <div class="cover">${game.icon}</div>
+      <div class="info">
+        <h3>${game.name}</h3>
+        <p>${game.desc}</p>
+        <div class="platform">${game.platforms.join(" · ")}</div>
+        <div class="price ${game.free ? "free" : ""}">
+          ${game.free
+            ? "Безкоштовне завантаження; можливі покупки в грі"
+            : "Платна гра · ціна в офіційному магазині"}
+        </div>
+        <a
+          class="store"
+          href="${game.url}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >ВІДКРИТИ ОФІЦІЙНИЙ САЙТ ↗</a>
+      </div>
+    </article>
+  `).join("") || "<p>Ігор не знайдено.</p>";
+}
+
+const lightMode=document.getElementById("lightMode");
+
+lightMode.addEventListener("change",()=>{
+  document.body.classList.toggle("light",lightMode.checked);
+  localStorage.setItem("sashaGamesLightMode",lightMode.checked ? "on" : "off");
+});
+
+if(localStorage.getItem("sashaGamesLightMode")==="on"){
+  lightMode.checked=true;
+  document.body.classList.add("light");
+}
+
+render();
+</script>
+
+</body>
+</html>
