@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SASHA GAMES</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#101010;
+ color:#f5f5f5;
+ font-family:Arial,sans-serif;
+}
+header{
+ height:72px;
+ padding:0 6%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ background:#191919;
+ border-bottom:1px solid #303030;
+}
+.logo{font-size:24px;font-weight:900;letter-spacing:1px}
+.logo span{color:#aaa}
+nav{display:flex;gap:20px}
+nav a{color:#ccc;text-decoration:none;font-size:14px}
+nav a:hover{color:white}
+.hero{
+ padding:55px 7%;
+ background:#202020;
+}
+.hero small{color:#aaa;letter-spacing:2px}
+.hero h1{font-size:clamp(32px,6vw,52px);margin:14px 0}
+.hero p{color:#bbb}
+.search{
+ width:min(100%,480px);
+ padding:15px;
+ border-radius:8px;
+ border:1px solid #444;
+ background:#111;
+ color:white;
+ font-size:16px;
+ margin-top:15px;
+}
+.promo{
+ margin:25px 6%;
+ padding:25px;
+ border-radius:10px;
+ background:#292929;
+ border:1px solid #404040;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ flex-wrap:wrap;
+}
+.promo h2{margin:0 0 8px}
+.promo p{color:#bbb;margin:0}
+.promo strong{font-size:22px}
+main{padding:10px 6% 50px}
+.categories{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin:20px 0 28px;
+}
+.categories button{
+ padding:12px 19px;
+ border:1px solid #444;
+ border-radius:7px;
+ background:#222;
+ color:white;
+ cursor:pointer;
+}
+.categories button.active,
+.categories button:hover{background:#444}
+.games{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+ gap:18px;
+}
+.card{
+ background:#1b1b1b;
+ border:1px solid #333;
+ border-radius:10px;
+ overflow:hidden;
+}
+.cover{
+ height:140px;
+ display:grid;
+ place-items:center;
+ font-size:60px;
+ background:#292929;
+}
+.info{padding:16px}
+.info h3{margin:0 0 10px}
+.info p{color:#aaa;font-size:14px;min-height:34px}
+.platform{font-size:12px;color:#999}
+.price{font-weight:bold;margin-top:14px;font-size:15px}
+.free{color:#ddd}
+.download{
+ display:block;
+ text-align:center;
+ text-decoration:none;
+ background:#eee;
+ color:#111;
+ padding:12px;
+ border-radius:6px;
+ margin-top:14px;
+ font-weight:bold;
+}
+.download:hover{background:#ccc}
+footer{
+ padding:30px;
+ text-align:center;
+ color:#888;
+ border-top:1px solid #333;
+}
+@media(max-width:600px){
+ nav{gap:10px}
+ nav a{font-size:12px}
+ .logo{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">SASHA <span>GAMES</span></div>
+ <nav>
+  <a href="#catalog">Каталог</a>
+  <a href="#free">Безкоштовні</a>
+  <a href="#sales">Акції</a>
+ </nav>
+</header>
+
+<section class="hero">
+ <small>ІГРОВИЙ МАРКЕТПЛЕЙС</small>
+ <h1>ТВІЙ СВІТ ІГОР</h1>
+ <p>Знаходь ігри для комп'ютера, смартфона та планшета.</p>
+ <input class="search" id="search"
+ placeholder="🔎 Пошук ігор..."
+ oninput="render()">
+</section>
+
+<section class="promo" id="sales">
+ <div>
+  <h2>ВИХІДНІ АКЦІЙ</h2>
+  <p>Спеціальні пропозиції щовихідних.</p>
+ </div>
+ <strong>WEEKEND SALE</strong>
+</section>
+
+<main id="catalog">
+ <h2>КАТАЛОГ ІГОР</h2>
+ <div class="categories">
+  <button class="active" onclick="choose('Усі',this)">Усі</button>
+  <button onclick="choose('PC',this)">PC</button>
+  <button onclick="choose('iPhone',this)">iPhone</button>
+  <button onclick="choose('iPad',this)">iPad</button>
+  <button onclick="choose('Android',this)">Android</button>
+  <button id="free" onclick="choose('Безкоштовні',this)">Безкоштовні</button>
+ </div>
+ <div class="games" id="games"></div>
+</main>
+
+<footer>
+ <div class="logo">SASHA GAMES</div>
+ <p>© 2026 SASHA GAMES</p>
+</footer>
+
+<script>
+const games=[
+{name:"Roblox",icon:"🧱",desc:"Мільйони ігор в одному місці",platforms:["PC","iPhone","iPad","Android"],free:true,url:"https://www.roblox.com"},
+{name:"Fortnite",icon:"🎮",desc:"Королівська битва",platforms:["PC"],free:true,url:"https://www.fortnite.com"},
+{name:"Standoff 2",icon:"🎯",desc:"Командний онлайн-шутер",platforms:["iPhone","iPad","Android"],free:true,url:"https://www.standoff2.com"},
+{name:"Brawl Stars",icon:"⭐",desc:"Командні битви",platforms:["iPhone","iPad","Android"],free:true,url:"https://supercell.com/en/games/brawlstars/"},
+{name:"Among Us",icon:"🚀",desc:"Знайди зрадника",platforms:["PC","iPhone","iPad","Android"],free:false,url:"https://www.innersloth.com/games/among-us/"},
+{name:"Minecraft",icon:"⛏️",desc:"Створюй власний світ",platforms:["PC","iPhone","iPad","Android"],free:false,url:"https://www.minecraft.net"},
+{name:"GTA V",icon:"🚗",desc:"Великий відкритий світ",platforms:["PC"],free:false,url:"https://www.rockstargames.com/gta-v"},
+{name:"Genshin Impact",icon:"🌍",desc:"Велика пригода",platforms:["PC","iPhone","iPad","Android"],free:true,url:"https://genshin.hoyoverse.com"}
+];
+
+let selected="Усі";
+
+function choose(type,btn){
+ selected=type;
+ document.querySelectorAll(".categories button")
+ .forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ render();
+}
+
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const list=games.filter(g=>{
+  const category=selected==="Усі"||
+   (selected==="Безкоштовні"?g.free:g.platforms.includes(selected));
+  return category&&g.name.toLowerCase().includes(q);
+ });
+
+ document.getElementById("games").innerHTML=list.map(g=>`
+ <article class="card">
+  <div class="cover">${g.icon}</div>
+  <div class="info">
+   <h3>${g.name}</h3>
+   <p>${g.desc}</p>
+   <div class="platform">${g.platforms.join(" · ")}</div>
+   <div class="price ${g.free?'free':''}">
+    ${g.free?'БЕЗКОШТОВНО':'Платна гра'}
+   </div>
+   <a class="download" href="${g.url}"
+    target="_blank" rel="noopener">ЗАВАНТАЖИТИ</a>
+  </div>
+ </article>`).join("")||"<p>Ігор не знайдено.</p>";
+}
+render();
+</script>
+</body>
+</html>
