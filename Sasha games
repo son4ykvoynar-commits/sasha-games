@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SASHA GAMES</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090b14;color:white;font-family:Arial,sans-serif}
+header{padding:25px 7%;background:#111426;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+.logo{font-size:26px;font-weight:900;color:#8b75ff}
+.logo span{color:white}
+.hero{text-align:center;padding:65px 15px;background:linear-gradient(120deg,#17133b,#101b36)}
+.hero h1{font-size:42px;margin:0 0 12px}
+.hero p{color:#bbb}
+input{padding:14px;border-radius:10px;border:1px solid #444;background:#171b2c;color:white;width:min(90%,380px);margin-top:18px}
+main{padding:30px 7%}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+button{background:#29264b;color:white;border:0;padding:11px 17px;border-radius:9px;cursor:pointer}
+button:hover,.active{background:#745bff}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.game{background:#151929;border:1px solid #292e45;border-radius:15px;padding:20px}
+.game .emoji{font-size:45px}
+.game h3{margin-bottom:7px}
+.game p{color:#aaa;min-height:35px}
+.game a{display:inline-block;margin-top:10px;color:#a99aff;text-decoration:none}
+footer{text-align:center;padding:30px;color:#888}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">SASHA <span>GAMES</span></div>
+<div>🎮 Ігровий магазин</div>
+</header>
+<section class="hero">
+<h1>Твій світ ігор</h1>
+<p>Знаходь улюблені ігри в одному місці!</p>
+<input id="search" placeholder="🔎 Шукай гру..." oninput="render()">
+</section>
+<main>
+<h2>Каталог ігор</h2>
+<div class="filters">
+<button class="active" onclick="filter('Усі',this)">Усі</button>
+<button onclick="filter('PC',this)">PC</button>
+<button onclick="filter('Android',this)">Android</button>
+<button onclick="filter('iOS',this)">iOS</button>
+</div>
+<div class="games" id="games"></div>
+</main>
+<footer>© 2026 SASHA GAMES · Зроблено з ❤️</footer>
+<script>
+const data=[
+["Grand Theft Auto V","🚗","Великий відкритий світ","PC","https://www.rockstargames.com/gta-v"],
+["Minecraft","⛏️","Будуй і досліджуй","PC","https://www.minecraft.net/"],
+["Roblox","🧱","Мільйони ігор від гравців","PC","https://www.roblox.com/"],
+["Fortnite","🔫","Королівська битва","PC","https://www.fortnite.com/"],
+["Standoff 2","🎯","Онлайн-шутер","Android","https://www.standoff2.com/"],
+["Brawl Stars","⭐","Динамічні битви","Android","https://supercell.com/en/games/brawlstars/"],
+["Among Us","👨‍🚀","Знайди зрадника","iOS","https://www.innersloth.com/games/among-us/"],
+["Genshin Impact","🌍","Пригоди у великому світі","iOS","https://genshin.hoyoverse.com/"]
+];
+let current="Усі";
+function filter(type,btn){
+current=type;
+document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+render();
+}
+function render(){
+let q=document.getElementById("search").value.toLowerCase();
+let list=data.filter(g=>(current==="Усі"||g[3]===current)&&g[0].toLowerCase().includes(q));
+document.getElementById("games").innerHTML=list.map(g=>`
+<div class="game">
+<div class="emoji">${g[1]}</div>
+<h3>${g[0]}</h3>
+<p>${g[2]} · ${g[3]}</p>
+<a href="${g[4]}" target="_blank" rel="noopener">Офіційний сайт ↗</a>
+</div>`).join("")||"<p>Ігор не знайдено.</p>";
+}
+render();
+</script>
+</body>
+</html>
