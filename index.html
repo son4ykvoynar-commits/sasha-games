@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111214">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>SASHA GAMES</title>
+
+<style>
+:root{
+ --bg:#111214;--panel:#1b1c20;--line:#303137;
+ --lime:#c5ff00;--white:#f5f5f5;--muted:#999ba3;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--white);
+ font-family:Arial,Helvetica,sans-serif;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.wrap{width:min(1240px,94%);margin:auto}
+
+header{
+ height:70px;background:#151619;
+ border-bottom:1px solid var(--line);
+ position:sticky;top:0;z-index:20;
+}
+.top{
+ height:100%;display:flex;align-items:center;
+ justify-content:space-between;gap:20px;
+}
+.logo{font-size:22px;font-weight:950;letter-spacing:1px}
+.logo span{color:var(--lime)}
+nav{display:flex;gap:22px}
+nav a{font-size:13px;color:#c4c4c8}
+nav a:hover{color:var(--lime)}
+.header-right{display:flex;align-items:center;gap:10px}
+.install,.lime{
+ background:var(--lime);color:#111;border:0;
+ padding:12px 17px;border-radius:9px;
+ font-size:11px;font-weight:950;cursor:pointer;
+}
+.icon-btn{
+ width:38px;height:38px;border-radius:10px;
+ background:#24252a;border:1px solid #393a40;
+ color:white;font-size:20px;
+}
+
+.hero-grid{
+ display:grid;grid-template-columns:1.55fr 1fr;
+ gap:16px;margin:24px 0 18px;
+}
+.feature{
+ min-height:280px;border-radius:17px;
+ overflow:hidden;position:relative;
+ background:#292a30;border:1px solid #37383e;
+}
+.feature-main{
+ background:
+ linear-gradient(90deg,#111214ed,#11121435),
+ radial-gradient(ellipse at 70% 40%,#80603d,#34303a 48%,#17181c);
+}
+.steam{
+ background:
+ linear-gradient(140deg,#17202b55,#0c0e14ed),
+ radial-gradient(circle at 70% 15%,#41617b,#1e2939 60%);
+}
+.feature-art{
+ position:absolute;right:6%;top:12%;
+ font-size:clamp(90px,14vw,175px);
+ opacity:.8;transform:rotate(-8deg);
+}
+.steam .feature-art{font-size:115px}
+.feature-content{
+ position:absolute;left:25px;bottom:24px;
+ max-width:78%;z-index:2;
+}
+.pill{
+ display:inline-block;background:#34353a;
+ border:1px solid #55565b;color:var(--lime);
+ padding:6px 10px;border-radius:20px;
+ font-size:10px;font-weight:bold;
+}
+.feature h1{font-size:clamp(24px,4vw,43px);margin:13px 0 7px}
+.feature h2{font-size:25px;margin:12px 0}
+.feature p{font-size:12px;color:#c5c5c8;line-height:1.5}
+.steam-price{color:var(--lime);font-size:17px;font-weight:900}
+
+.search{margin:20px 0}
+.search input{
+ width:100%;padding:15px 17px;
+ background:#1b1c20;border:1px solid #35363c;
+ color:white;border-radius:10px;font-size:14px;
+ outline:none;
+}
+.search input:focus{border-color:var(--lime)}
+
+.categories{
+ display:flex;gap:9px;overflow-x:auto;
+ padding:3px 0 15px;scrollbar-width:none;
+}
+.categories button{
+ flex:none;padding:10px 17px;
+ border:1px solid #38393e;background:#202126;
+ color:#ccc;border-radius:9px;font-size:12px;
+}
+.categories button.active{
+ background:var(--lime);color:#111;
+ border-color:var(--lime);font-weight:900;
+}
+.section{margin:25px 0}
+.section-title{
+ display:flex;justify-content:space-between;
+ align-items:center;margin-bottom:15px;
+}
+.section-title h2{font-size:20px;margin:0}
+.count{font-size:11px;color:var(--muted)}
+
+.game-row{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:14px;
+}
+.game{
+ background:var(--panel);border:1px solid #303137;
+ border-radius:13px;overflow:hidden;min-width:0;
+}
+.cover{
+ height:145px;display:flex;align-items:center;
+ justify-content:center;font-size:45px;
+ font-weight:950;background:#292b30;
+}
+.c1{background:linear-gradient(135deg,#35452c,#181d1a)}
+.c2{background:linear-gradient(135deg,#32445b,#1b2029)}
+.c3{background:linear-gradient(135deg,#684532,#211d1a)}
+.c4{background:linear-gradient(135deg,#55406a,#211d2b)}
+.game-info{padding:13px}
+.game-name{font-size:14px;font-weight:900}
+.game-platform{font-size:10px;color:var(--muted);margin-top:6px}
+.game-bottom{
+ display:flex;align-items:center;
+ justify-content:space-between;gap:8px;margin-top:13px;
+}
+.game-price{font-size:12px;color:var(--lime);font-weight:900}
+.buy{
+ background:var(--lime);color:#111;border:0;
+ border-radius:7px;padding:9px 12px;
+ font-size:10px;font-weight:950;
+}
+.empty{
+ grid-column:1/-1;background:var(--panel);
+ padding:35px;text-align:center;color:var(--muted);
+ border-radius:12px;
+}
+.info{
+ border:1px solid var(--line);background:#191a1e;
+ padding:17px;border-radius:12px;
+ color:var(--muted);font-size:12px;
+ line-height:1.6;margin:30px 0;
+}
+footer{
+ padding:25px 0;border-top:1px solid var(--line);
+ color:#777;font-size:11px;
+}
+
+@media(max-width:850px){
+ .game-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .hero-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+ header{height:auto}
+ .top{min-height:65px;flex-wrap:wrap;padding:12px 0}
+ nav{order:3;width:100%;justify-content:space-between;padding-bottom:5px}
+ .hero-grid{grid-template-columns:1fr;gap:12px;margin-top:16px}
+ .feature{min-height:235px}
+ .feature-content{left:18px;bottom:18px}
+ .steam{min-height:220px}
+ .game-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .cover{height:105px;font-size:34px}
+ .game-info{padding:10px}
+ .game-name{font-size:13px}
+ .install{padding:10px 12px}
+}
+</style>
+</head>
+
+<body>
+<header>
+ <div class="wrap top">
+  <a class="logo" href="#">SASHA <span>GAMES</span></a>
+
+  <nav>
+   <a href="#catalog">Магазин</a>
+   <a href="#popular">Популярне</a>
+   <a href="#free">Безкоштовні</a>
+  </nav>
+
+  <div class="header-right">
+   <button class="icon-btn" onclick="document.getElementById('search').focus()">⌕</button>
+   <button class="install" id="installBtn">ВСТАНОВИТИ</button>
+  </div>
+ </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero-grid">
+
+ <section class="feature feature-main">
+  <div class="feature-art">🎮</div>
+  <div class="feature-content">
+   <span class="pill">SASHA GAMES STORE</span>
+   <h1>ТВІЙ СВІТ ІГОР</h1>
+   <p>Знаходь ігри, відкривай нові світи та збирай свою бібліотеку.</p>
+   <a class="lime" href="#catalog">ДИВИТИСЯ ІГРИ</a>
+  </div>
+ </section>
+
+ <section class="feature steam">
+  <div class="feature-art">◉</div>
+  <div class="feature-content">
+   <span class="pill">STEAM WALLET</span>
+   <h2>ПОПОВНЕННЯ STEAM</h2>
+   <div class="steam-price">Офіційний Steam</div>
+   <p>Перейди до поповнення гаманця Steam.</p>
+   <a class="lime"
+      href="https://store.steampowered.com/steamaccount/addfunds"
+      target="_blank" rel="noopener noreferrer">
+      ПОПОВНИТИ STEAM →
+   </a>
+  </div>
+ </section>
+
+</div>
+
+<div class="search">
+ <input id="search" type="search" placeholder="⌕  Знайти гру...">
+</div>
+
+<section id="catalog" class="section">
+ <div class="categories">
+  <button class="active" data-filter="Усі">Усі ігри</button>
+  <button data-filter="PC">PC</button>
+  <button data-filter="Android">Android</button>
+  <button data-filter="Apple">iPhone / iPad</button>
+  <button data-filter="Безкоштовні">Безкоштовні</button>
+ </div>
+</section>
+
+<section id="popular" class="section">
+ <div class="section-title">
+  <h2>Популярні ігри</h2>
+  <span class="count" id="count"></span>
+ </div>
+ <div class="game-row" id="grid"></div>
+</section>
+
+<section id="free" class="info">
+ <b style="color:var(--lime)">SASHA GAMES</b><br>
+ Це каталог ігор. Кнопки відкривають офіційні сторінки розробників
+ або магазинів. Ціни залежать від платформи та країни.
+ Поповнення Steam відбувається на офіційному сайті Steam,
+ а не через SASHA GAMES.
+</section>
+
+</main>
+
+<footer>
+ <div class="wrap">© 2026 SASHA GAMES · Незалежний каталог ігор.</div>
+</footer>
+
+<script>
+const games=[
+ ["Roblox","PC · Android · iPhone / iPad","Безкоштовно","R","https://www.roblox.com/"],
+ ["Fortnite","PC · Android · iPhone / iPad","Безкоштовно","F","https://www.fortnite.com/"],
+ ["Standoff 2","Android · iPhone / iPad","Безкоштовно","S2","https://standoff2.com/"],
+ ["Brawl Stars","Android · iPhone / iPad","Безкоштовно","BS","https://supercell.com/en/games/brawlstars/"],
+ ["Minecraft","PC · Android · iPhone / iPad","Платна","MC","https://www.minecraft.net/"],
+ ["Among Us","PC · Android · iPhone / iPad","Платна на деяких платформах","AU","https://www.innersloth.com/games/among-us/"],
+ ["Genshin Impact","PC · Android · iPhone / iPad","Безкоштовно","GI","https://genshin.hoyoverse.com/"],
+ ["Rocket League","PC","Безкоштовно","RL","https://www.rocketleague.com/"],
+ ["Fall Guys","PC","Безкоштовно","FG","https://www.fallguys.com/"],
+ ["Apex Legends","PC","Безкоштовно","A","https://www.ea.com/games/apex-legends"],
+ ["The Sims 4","PC","Безкоштовно","TS","https://www.ea.com/games/the-sims/the-sims-4"],
+ ["Dota 2","PC","Безкоштовно","D2","https://www.dota2.com/"],
+ ["Counter-Strike 2","PC","Безкоштовно","CS2","https://www.counter-strike.net/"],
+ ["Warframe","PC","Безкоштовно","W","https://www.warframe.com/"],
+ ["Honkai: Star Rail","PC · Android · iPhone / iPad","Безкоштовно","HSR","https://hsr.hoyoverse.com/"],
+ ["Clash Royale","Android · iPhone / iPad","Безкоштовно","CR","https://supercell.com/en/games/clashroyale/"],
+ ["Clash of Clans","Android · iPhone / iPad","Безкоштовно","COC","https://supercell.com/en/games/clashofclans/"],
+ ["PUBG MOBILE","Android · iPhone / iPad","Безкоштовно","PUBG","https://www.pubgmobile.com/"],
+ ["Call of Duty Mobile","Android · iPhone / iPad","Безкоштовно","COD","https://www.callofduty.com/mobile"],
+ ["Subway Surfers","Android · iPhone / iPad","Безкоштовно","SS","https://sybogames.com/subway-surfers/"],
+ ["Geometry Dash","PC · Android · iPhone / iPad","Платна","GD","https://www.robtopgames.com/"],
+ ["Terraria","PC · Android · iPhone / iPad","Платна","T","https://terraria.org/"],
+ ["Stardew Valley","PC · Android · iPhone / iPad","Платна","SV","https://www.stardewvalley.net/"],
+ ["Portal 2","PC","Платна","P2","https://store.steampowered.com/app/620/Portal_2/"],
+ ["Euro Truck Simulator 2","PC","Платна","ETS2","https://store.steampowered.com/app/227300/Euro_Truck_Simulator_2/"],
+ ["Asphalt Legends","PC · Android · iPhone / iPad","Безкоштовно","AL","https://asphaltlegends.com/"]
+];
+
+let filter="Усі";
+const grid=document.getElementById("grid");
+const search=document.getElementById("search");
+
+function render(){
+ const q=search.value.toLowerCase().trim();
+
+ const shown=games.filter(g=>{
+  const matches=filter==="Усі" ||
+   (filter==="Безкоштовні"
+    ? g[2]==="Безкоштовно"
+    : filter==="PC"
+      ? g[1].includes("PC")
+      : filter==="Android"
+        ? g[1].includes("Android")
+        : g[1].includes("iPhone / iPad"));
+
+  return matches && g[0].toLowerCase().includes(q);
+ });
+
+ document.getElementById("count").textContent=shown.length+" ігор";
+
+ grid.innerHTML=shown.length ? shown.map((g,i)=>`
+  <article class="game">
+   <div class="cover c${i%4+1}">${g[3]}</div>
+   <div class="game-info">
+    <div class="game-name">${g[0]}</div>
+    <div class="game-platform">${g[1]}</div>
+    <div class="game-bottom">
+     <span class="game-price">${g[2]}</span>
+     <a class="buy" href="${g[4]}" target="_blank"
+        rel="noopener noreferrer">ДЕТАЛІ</a>
+    </div>
+   </div>
+  </article>
+ `).join("") : '<div class="empty">Ігор не знайдено.</div>';
+}
+
+document.querySelectorAll("[data-filter]").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  filter=btn.dataset.filter;
+  document.querySelectorAll("[data-filter]").forEach(b=>{
+   b.classList.toggle("active",b===btn);
+  });
+  render();
+ });
+});
+
+search.addEventListener("input",render);
+render();
+
+/* Встановлення PWA */
+let installPrompt=null;
+const installBtn=document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt",event=>{
+ event.preventDefault();
+ installPrompt=event;
+});
+
+installBtn.addEventListener("click",async()=>{
+ if(installPrompt){
+  installPrompt.prompt();
+  await installPrompt.userChoice;
+  installPrompt=null;
+ }else{
+  alert("Відкрий сайт у Chrome, натисни ⋮ і вибери «Встановити додаток» або «Додати на головний екран».");
+ }
+});
+
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./sw.js").catch(()=>{});
+ });
+}
+</script>
+</body>
+</html>
