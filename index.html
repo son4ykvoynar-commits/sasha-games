@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17191c">
+<meta name="description" content="Sasha Games — магазин комп'ютерних та мобільних ігор">
+<link rel="canonical" href="https://sashagames.com/">
+<link rel="manifest" href="/manifest.webmanifest">
+<title>Sasha Games PRO</title>
+<style>
+:root {
+ --bg:#111315;
+ --panel:#1b1e22;
+ --panel2:#252a30;
+ --text:#f4f5f6;
+ --muted:#a0a7ae;
+ --border:#343a40;
+ --blue:#3977a8;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Arial,sans-serif;
+}
+header{
+ height:72px;background:#191c20;
+ border-bottom:1px solid var(--border);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 5%;position:sticky;top:0;z-index:10;
+}
+.logo{font-size:24px;font-weight:800}
+.logo span{color:#7ca6c9}
+button{
+ border:0;border-radius:5px;padding:11px 16px;
+ background:var(--blue);color:white;cursor:pointer;
+}
+button:hover{filter:brightness(1.15)}
+.secondary{background:#30363c}
+nav{
+ display:flex;gap:25px;padding:17px 5%;
+ background:#1e2226;border-bottom:1px solid var(--border);
+ overflow-x:auto;
+}
+nav a{color:#c8cdd2;text-decoration:none;white-space:nowrap;cursor:pointer}
+nav a:hover{color:white}
+main{max-width:1400px;margin:auto;padding:25px 4%}
+.page{display:none}
+.page.active{display:block}
+.hero{
+ min-height:340px;border-radius:8px;padding:40px;
+ display:flex;align-items:center;
+ background:linear-gradient(110deg,#20252b,#343e47);
+ border:1px solid var(--border);
+}
+.hero-content{max-width:600px}
+.hero h1{font-size:42px;margin:10px 0}
+.hero p{color:#c4cbd1;line-height:1.6}
+.section-title{margin:35px 0 18px;font-size:23px}
+.games{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+ gap:16px;
+}
+.card{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:7px;overflow:hidden;
+}
+.cover{
+ height:145px;background:#303942;
+ display:flex;align-items:center;justify-content:center;
+ font-size:42px;
+}
+.card-info{padding:14px}
+.card h3{margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+.price{margin-top:13px;font-weight:bold}
+.actions{display:flex;gap:7px;margin-top:13px}
+.actions button{flex:1;padding:9px 5px}
+.search,input,select{
+ width:100%;padding:13px;background:#20252a;color:white;
+ border:1px solid var(--border);border-radius:5px;margin:7px 0;
+}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.filters button{background:#30363c}
+.filters button.selected{background:var(--blue)}
+.box{
+ padding:20px;background:var(--panel);
+ border:1px solid var(--border);border-radius:7px;margin:14px 0;
+}
+.detail-cover{
+ height:230px;background:#303942;border-radius:7px;
+ display:flex;align-items:center;justify-content:center;font-size:70px;
+}
+footer{
+ text-align:center;padding:35px;background:#191c20;
+ border-top:1px solid var(--border);color:var(--muted);margin-top:45px;
+}
+@media(max-width:600px){
+ header{padding:0 14px}
+ main{padding:16px 12px}
+ .hero{padding:23px;min-height:260px}
+ .hero h1{font-size:30px}
+ .games{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .cover{height:100px}
+ .card-info{padding:10px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">SASHA <span>GAMES</span></div>
+ <button onclick="go('settings')">⚙</button>
+</header>
+
+<nav>
+ <a onclick="go('home')">Головна</a>
+ <a onclick="go('catalog')">Магазин</a>
+ <a onclick="go('deals')">Акції</a>
+ <a onclick="go('favorites')">Обране</a>
+ <a onclick="go('cart')">Кошик</a>
+ <a onclick="go('profile')">Профіль</a>
+</nav>
+
+<main>
+<section id="home" class="page active">
+ <div class="hero">
+  <div class="hero-content">
+   <p>SASHA GAMES STORE</p>
+   <h1>Твій світ ігор</h1>
+   <p>Відкривай нові ігри для ПК, Android та iOS.</p>
+   <button onclick="go('catalog')">Відкрити магазин</button>
+  </div>
+ </div>
+ <h2 class="section-title">Популярні ігри</h2>
+ <div class="games" id="popular"></div>
+ <h2 class="section-title">Безкоштовні ігри</h2>
+ <div class="games" id="free"></div>
+</section>
+
+<section id="catalog" class="page">
+ <h2>Каталог ігор</h2>
+ <input class="search" id="search" placeholder="Знайти гру..." oninput="render()">
+ <div class="filters">
+  <button class="selected" onclick="filter('Всі',this)">Всі</button>
+  <button onclick="filter('Шутери',this)">Шутери</button>
+  <button onclick="filter('Хоррори',this)">Хоррори</button>
+  <button onclick="filter('PvP',this)">PvP</button>
+  <button onclick="filter('Пригоди',this)">Пригоди</button>
+  <button onclick="filter('Гонки',this)">Гонки</button>
+  <button onclick="filter('Симулятори',this)">Симулятори</button>
+ </div>
+ <select id="sort" onchange="render()">
+  <option value="name">За назвою</option>
+  <option value="price">За ціною</option>
+  <option value="popular">Популярні</option>
+ </select>
+ <div class="games" id="catalogGames"></div>
+</section>
+
+<section id="deals" class="page">
+ <h2>Акції</h2>
+ <div class="box">
+  <h2>Спеціальні пропозиції</h2>
+  <p>Тут з'являтимуться акційні ігри та знижки.</p>
+ </div>
+ <div class="games" id="dealsGames"></div>
+</section>
+
+<section id="favorites" class="page">
+ <h2>Обране</h2>
+ <div class="games" id="favoriteGames"></div>
+</section>
+
+<section id="cart" class="page">
+ <h2>Кошик</h2>
+ <div id="cartItems"></div>
+ <h3 id="total">Разом: 0 грн</h3>
+ <button onclick="checkout()">Оформити замовлення</button>
+ <p class="muted">Демонстраційний кошик. Реальні платежі не підключені.</p>
+</section>
+
+<section id="profile" class="page">
+ <h2>Профіль</h2>
+ <div class="box">
+  <input id="username" placeholder="Ім'я користувача">
+  <button onclick="saveProfile()">Зберегти</button>
+  <p id="profileStatus"></p>
+ </div>
+ <h3>Історія покупок</h3>
+ <div id="history"></div>
+</section>
+
+<section id="settings" class="page">
+ <h2>Налаштування</h2>
+ <div class="box">
+  <p>Мова</p>
+  <select id="language" onchange="saveLanguage()">
+   <option value="uk">Українська</option>
+   <option value="ru">Русский</option>
+   <option value="en">English</option>
+  </select>
+ </div>
+ <div class="box">
+  <p>Тема</p>
+  <button onclick="toggleTheme()">Змінити тему</button>
+ </div>
+ <div class="box">
+  <p>Адреса сайту</p>
+  <b>https://sashagames.com</b>
+ </div>
+ <div class="box">Sasha Games PRO — версія 2.0</div>
+</section>
+
+<section id="details" class="page">
+ <div id="detailContent"></div>
+</section>
+
+<section id="admin" class="page">
+ <h2>Додавання ігор</h2>
+ <div class="box">
+  <input id="newName" placeholder="Назва гри">
+  <input id="newPrice" type="number" min="0" placeholder="Ціна грн">
+  <input id="newCategory" placeholder="Категорія">
+  <input id="newLink" placeholder="Офіційне посилання">
+  <button onclick="addGame()">Додати гру</button>
+ </div>
+ <p class="muted">Демонстраційний режим. Не є захищеною адмін-панеллю.</p>
+</section>
+</main>
+
+<footer>
+ SASHA GAMES © 2026<br>
+ https://sashagames.com
+</footer>
+
+<script>
+const defaults=[
+ {id:1,name:"Roblox",price:0,category:"Пригоди",link:"https://www.roblox.com/download",popular:100},
+ {id:2,name:"Fortnite",price:0,category:"Шутери",link:"https://store.epicgames.com/",popular:95},
+ {id:3,name:"Team Fortress 2",price:0,category:"PvP",link:"https://store.steampowered.com/app/440/",popular:85},
+ {id:4,name:"Geometry Dash",price:50,category:"Пригоди",link:"https://store.steampowered.com/app/322170/",popular:90},
+ {id:5,name:"Brawlhalla",price:0,category:"PvP",link:"https://store.steampowered.com/app/291550/",popular:80},
+ {id:6,name:"Unturned",price:0,category:"Пригоди",link:"https://store.steampowered.com/app/304930/",popular:70},
+ {id:7,name:"War Thunder",price:0,category:"Симулятори",link:"https://store.steampowered.com/app/236390/",popular:75},
+ {id:8,name:"Cry of Fear",price:0,category:"Хоррори",link:"https://store.steampowered.com/app/223710/",popular:65}
+];
+
+let games=JSON.parse(localStorage.getItem("sg_games")||"null")||defaults;
+let favorites=JSON.parse(localStorage.getItem("sg_favs")||"[]");
+let cart=JSON.parse(localStorage.getItem("sg_cart")||"[]");
+let history=JSON.parse(localStorage.getItem("sg_history")||"[]");
+let category="Всі";
+
+function save(){
+ localStorage.setItem("sg_games",JSON.stringify(games));
+ localStorage.setItem("sg_favs",JSON.stringify(favorites));
+ localStorage.setItem("sg_cart",JSON.stringify(cart));
+ localStorage.setItem("sg_history",JSON.stringify(history));
+}
+function go(id){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ renderAll();
+ window.scrollTo(0,0);
+}
+function esc(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+function card(g){
+ return `<article class="card">
+ <div class="cover">🎮</div>
+ <div class="card-info">
+ <h3>${esc(g.name)}</h3>
+ <p class="muted">${esc(g.category)}</p>
+ <div class="price">${g.price===0?"Безкоштовно":g.price+" грн"}</div>
+ <div class="actions">
+ <button onclick="openGame(${g.id})">Деталі</button>
+ <button class="secondary" onclick="favorite(${g.id})">♡</button>
+ </div>
+ </div></article>`;
+}
+function render(){
+ let q=(document.getElementById("search")?.value||"").toLowerCase();
+ let sort=document.getElementById("sort")?.value||"name";
+ let list=games.filter(g=>g.name.toLowerCase().includes(q)&&(category==="Всі"||g.category===category));
+ if(sort==="price")list.sort((a,b)=>a.price-b.price);
+ if(sort==="popular")list.sort((a,b)=>b.popular-a.popular);
+ if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
+ document.getElementById("catalogGames").innerHTML=list.map(card).join("")||"Ігор не знайдено";
+}
+function filter(c,el){
+ category=c;
+ document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("selected"));
+ el.classList.add("selected");
+ render();
+}
+function renderAll(){
+ document.getElementById("popular").innerHTML=games.slice().sort((a,b)=>b.popular-a.popular).slice(0,4).map(card).join("");
+ document.getElementById("free").innerHTML=games.filter(g=>g.price===0).slice(0,4).map(card).join("");
+ document.getElementById("dealsGames").innerHTML=games.filter(g=>g.price>0).map(card).join("")||"Поки немає акційних ігор";
+ document.getElementById("favoriteGames").innerHTML=games.filter(g=>favorites.includes(g.id)).map(card).join("")||"Обране порожнє";
+ document.getElementById("cartItems").innerHTML=cart.map(id=>{
+ let g=games.find(x=>x.id===id);
+ return g?`<div class="box">${esc(g.name)} — ${g.price} грн <button onclick="removeCart(${id})">Видалити</button></div>`:"";
+ }).join("")||"Кошик порожній";
+ document.getElementById("total").innerText="Разом: "+cart.reduce((s,id)=>s+(games.find(g=>g.id===id)?.price||0),0)+" грн";
+ document.getElementById("history").innerHTML=history.map(esc).map(x=>`<div class="box">${x}</div>`).join("")||"Покупок поки немає";
+ render();
+}
+function favorite(id){
+ favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];
+ save();renderAll();
+}
+function addCart(id){
+ if(!cart.includes(id)){cart.push(id);save();renderAll();alert("Додано до кошика");}
+ else alert("Гра вже є в кошику");
+}
+function removeCart(id){cart=cart.filter(x=>x!==id);save();renderAll();}
+function openGame(id){
+ let g=games.find(x=>x.id===id);
+ if(!g)return;
+ document.getElementById("detailContent").innerHTML=`
+ <button class="secondary" onclick="go('catalog')">← Назад</button>
+ <div class="box">
+ <div class="detail-cover">🎮</div>
+ <h1>${esc(g.name)}</h1>
+ <p>${esc(g.category)}</p>
+ <h3>${g.price===0?"Безкоштовно":g.price+" грн"}</h3>
+ <p>Завантаження з офіційної сторінки гри.</p>
+ <button onclick="window.open('${safeURL(g.link)}','_blank','noopener')">Відкрити магазин</button>
+ <button class="secondary" onclick="addCart(${g.id})">У кошик</button>
+ <button class="secondary" onclick="favorite(${g.id})">В обране</button>
+ </div>`;
+ go("details");
+}
+function safeURL(url){
+ try{
+ let u=new URL(url);
+ return ["https:","http:"].includes(u.protocol)?u.href:"#";
+ }catch{return "#";}
+}
+function checkout(){
+ if(!cart.length){alert("Кошик порожній");return;}
+ alert("Це демонстраційне оформлення. Реальна оплата не підключена.");
+}
+function saveProfile(){
+ localStorage.setItem("sg_username",document.getElementById("username").value);
+ document.getElementById("profileStatus").innerText="Збережено на цьому пристрої";
+}
+function addGame(){
+ let name=document.getElementById("newName").value.trim();
+ let price=Number(document.getElementById("newPrice").value);
+ let cat=document.getElementById("newCategory").value.trim();
+ let link=document.getElementById("newLink").value.trim();
+ let valid=safeURL(link);
+ if(!name||!cat||!link||valid==="#"||!Number.isFinite(price)||price<0){
+  alert("Перевір заповнення полів");return;
+ }
+ games.push({id:Date.now(),name,price,category:cat,link:valid,popular:0});
+ save();renderAll();alert("Гру додано");
+}
+function toggleTheme(){
+ document.body.classList.toggle("light");
+ alert("Світлу тему можна додати окремим оформленням.");
+}
+function saveLanguage(){
+ localStorage.setItem("sg_lang",document.getElementById("language").value);
+ alert("Мову збережено. Переклад інтерфейсу ще потрібно підключити.");
+}
+document.getElementById("username").value=localStorage.getItem("sg_username")||"";
+document.getElementById("language").value=localStorage.getItem("sg_lang")||"uk";
+renderAll();
+</script>
+</body>
+</html>
