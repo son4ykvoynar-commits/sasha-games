@@ -1,0 +1,21 @@
+
+{
+  "id": "https://sashagames.com/",
+  "name": "SASHA GAMES",
+  "short_name": "SASHA GAMES",
+  "description": "Ігровий магазин для всіх платформ",
+  "start_url": "https://sashagames.com/",
+  "scope": "https://sashagames.com/",
+  "display": "standalone",
+  "background_color": "#191c19",
+  "theme_color": "#191c19",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "https://sashagames.com/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
